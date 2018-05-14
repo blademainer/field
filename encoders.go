@@ -824,12 +824,10 @@ func dominantField(fields []field) (field, bool) {
 // cachedTypeFields is like typeFields but uses a cache to avoid repeated work.
 func cachedTypeFields(t reflect.Type, p *Parser) []field {
 	if p.fieldCache == nil {
-		fmt.Printf("init field cache... Parser: %v \n", &p)
 		p.fieldCache = &fieldCache{}
 	}
 	m, _ := p.fieldCache.value.Load().(map[reflect.Type][]field)
 	f := m[t]
-	fmt.Println("fieldCache: ", f)
 	if f != nil {
 		return f
 	}
@@ -850,6 +848,5 @@ func cachedTypeFields(t reflect.Type, p *Parser) []field {
 	newM[t] = f
 	p.fieldCache.value.Store(newM)
 	p.fieldCache.mu.Unlock()
-	fmt.Println("stored: ", newM)
 	return f
 }
